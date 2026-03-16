@@ -1,5 +1,3 @@
-import { useState } from "react";
-import "./App.css";
 import { useFetch } from "./hooks/useFetch";
 import type { UserData } from "./types";
 import AvailableMembers from "./components/AvailableMembers";

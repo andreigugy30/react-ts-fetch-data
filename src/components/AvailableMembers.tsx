@@ -2,16 +2,20 @@ import { useMemo, useState } from "react";
 import type { UserData } from "../types";
 import User from "./User";
 import SearchUser from "./SearchUser";
+import { useDebounce } from "../hooks/useDebounce";
 
 const AvailableMembers = ({ users }: { users: UserData[] }) => {
 	const [searchTerm, setSearchTerm] = useState("");
+	const debounceSearchTerm = useDebounce(searchTerm);
 
 	const filteredUsersByLastName = useMemo(() => {
 		return users.filter((user) => {
 			console.log("Hello");
-			return user.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+			return user.lastName
+				.toLowerCase()
+				.includes(debounceSearchTerm.toLowerCase());
 		});
-	}, [users, searchTerm]);
+	}, [users, debounceSearchTerm]);
 
 	const handleSearchChange = (newSearchTerm: string) => {
 		setSearchTerm(newSearchTerm);
