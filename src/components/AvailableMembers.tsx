@@ -4,13 +4,20 @@ import User from "./User";
 import SearchUser from "./SearchUser";
 import { useDebounce } from "../hooks/useDebounce";
 
-const AvailableMembers = ({ users }: { users: UserData[] }) => {
+const AvailableMembers = ({
+	users,
+	selectedUsers,
+	onMemberClick,
+}: {
+	users: UserData[];
+	selectedUsers: UserData[];
+	onMemberClick: (user: UserData) => void;
+}) => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const debounceSearchTerm = useDebounce(searchTerm);
 
 	const filteredUsersByLastName = useMemo(() => {
 		return users.filter((user) => {
-			console.log("Hello");
 			return user.lastName
 				.toLowerCase()
 				.includes(debounceSearchTerm.toLowerCase());
@@ -28,7 +35,12 @@ const AvailableMembers = ({ users }: { users: UserData[] }) => {
 				<div>No users found</div>
 			) : (
 				filteredUsersByLastName.map((user) => (
-					<User key={user.id} user={user} />
+					<User
+						key={user.id}
+						user={user}
+						onMemberClick={() => onMemberClick(user)}
+						isSelected={selectedUsers.some((u) => u.id === user.id)}
+					/>
 				))
 			)}
 		</>
