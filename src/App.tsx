@@ -15,6 +15,12 @@ function App() {
 		}
 	};
 
+	const handleDeleteSelectedMember = (id: number) => {
+		const deletedItem = selectedUsers.filter((user) => user.id !== id);
+		console.log("🚀 ~ handleDeleteSelectedMember ~ deletedItem:", deletedItem);
+		setSelectedUsers(deletedItem);
+	};
+
 	return (
 		<>
 			<div className="container flex">
@@ -26,7 +32,10 @@ function App() {
 					/>
 				</div>
 				<div className="text-lg font-bold w-full max-w-md">
-					<SelectedMembers selectedUsers={selectedUsers} />
+					<SelectedMembers
+						selectedUsers={selectedUsers}
+						handleDeleteSelectedMember={handleDeleteSelectedMember}
+					/>
 				</div>
 			</div>
 		</>
